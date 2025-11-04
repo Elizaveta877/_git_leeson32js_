@@ -27,18 +27,7 @@ h1 {
 
 }
 
-/* адаптація */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2rem;
-    }
-}
 
-@media (max-width: 480px) {
-    h1 {
-        font-size: 1.2rem;
-    }
-}
 
 
 
@@ -202,8 +191,8 @@ h1 {
   height: 50px;
   border: 5px solid rgba(255, 255, 255, 0.2); 
   border-top-color: #eee; 
-  border-radius: 50%;/
-  margin: 30px auto;
+  border-radius: 50%;
+  margin:30px auto;
   animation: spin 1s linear infinite;
   display: none; 
 }
@@ -218,3 +207,63 @@ h1 {
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 768px) {
+  
+     h1 {
+        font-size: 2rem;
+    }
+
+  .container {
+    width: min(100% - 30px, 1280px); 
+  }
+}
+
+
+@media (max-width: 480px) {
+  
+ 
+  h1 {
+    font-size: 1.75rem; 
+    padding: 20px 10px; 
+  }
+
+  .container {
+    width: min(100% - 20px, 1280px);
+  }
+  
+ 
+  .movies {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+
+  .movie {
+    box-shadow: none; 
+    border: 1px solid #444; 
+  }
+  
+  .movie__info {
+    position: static;
+    transform: none;
+    opacity: 1; 
+    background: none; 
+    color: #eee;
+    padding: 10px; 
+  }
+
+  .movie__title,
+  .movie__year,
+  .movie__type {
+    color: #eee; 
+  }
+
+  .movie:hover .movie__poster {
+    transform: none; 
+  }
+}
+
+
+
+
