@@ -13,38 +13,42 @@
 
 <body>
 
-  <div id="carousel"></div>
-  <!-- 
-    <div id="slides-container" class="slides">
-
-      <div class="slide active">Slide 1</div>
-      <div class="slide">Slide 2</div>
-      <div class="slide">Slide 3</div>
-      <div class="slide">Slide 4</div>
-      <div class="slide">Slide 5</div>
-    </div> -->
-
-  <!-- <div id="controls-container" class="controls">
-      <div id="pause-btn" class="control control-pause"><i class="fa-solid fa-pause"></i></div>
-      <div id="previous-btn" class="control contol-prev"><i class="fa-solid fa-chevron-left"></i></div>
-      <div id="next-btn" class="control control-next"><i class="fa-solid fa-chevron-right"></i></div>
-    </div> -->
+  <div class="container">
 
 
-  <!-- 
-    <div id="indicators-container" class="indicators">
-      <div class="indicator active" data-slide-to="0"></div>
-      <div class="indicator" data-slide-to="1"></div>
-      <div class="indicator" data-slide-to="2"></div>
-      <div class="indicator" data-slide-to="3"></div>
-      <div class="indicator" data-slide-to="4"></div>
-      <div class="indicator" data-slide-to="5"></div>
-    </div> -->
+    <h1>КіноРадар</h1>
+
+
+    <div class="search">
+
+      <div class="search___group search__group--input">
+        <label class="search__label-input" for="checkbox">Обери цікаве для себе</label>
+        <input class="search__input" id="search" type="search" placeholder="Почніть вводити назву фільмів..">
+      </div>
 
 
 
-  <script src="./carousel/main.js" type="module"></script>
-  <!-- <script src="./carousel/index.js" type="module"></script> -->
+      <div class="search___group search__group--checkbox">
+        <label class="search__label-checkbox" for="checkbox">Додавти фільми в список</label>
+        <input class="search__checkbox" id="checkbox" type="checkbox" name="checkbox">
+      </div>
+
+    </div>
+
+
+    <div class="spinner"></div>
+    <div class="movies" id="movies-list">
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+  <script src="./carousel/index.js" type="module"></script>
 </body>
 
 </html>

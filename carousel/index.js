@@ -1,143 +1,100 @@
 
-// DOM
-// const container = document.querySelector('#carousel')
-// const slidesContainer = container.querySelector('#slides-container')
-// const slides = container.querySelectorAll('.slide');
-// const indicatorsContainer = container.querySelector('#indicators-container')
-// const indicators = container.querySelectorAll('.indicator')
-// const pauseBtn = container.querySelector('#pause-btn')
-// const previousBtn = container.querySelector('#previous-btn')
-// const nextBtn = container.querySelector('#next-btn')
-// // const
+const moviesListElement = document.getElementById('movies-list')
+const searchInput = document.getElementById('search')
+const searchChecbox = document.getElementById('checkbox')
+const spinnerElement = document.querySelector('.spinner')
+
+let isSearchTriggerEnabled = false
+
+let lastSearchValue = ''
+
+const debounceTime = (() => {
+  let timerId = null
+  return (callback, ms) => {
+    if (timerId) {
+      clearTimeout(timerId)
+      timerId = null
+    }
+    timerId = setTimeout(callback, ms)
+  }
+})()
+
+const getData = (url) => 
+fetch(url)
+.then((response) => response.json())
+.then((data) => {
+  if (!data || !data.Search) {
+    throw new Error ('The server returned invalid data') }
+    return data.Search
+})
+.catch ((err) => console.error('Error fetching data:', err.message))
 
 
-// const SLIDE_COUNT = slides.length
-// const CODE_SPACE = 'Space'
-// const COSE_ARROW_LEFT = 'ArrowLeft'
-// const CODE_ARROW_RIGHT = 'ArrowRight'
-// const FA_PAUSE = '<i class="fa-solid fa-pause"></i>'
-// const FA_PLAY = '<i class="fa-solid fa-play"></i>'
-// // const FA_PREV = '<i class="fa-solid fa-chevron-left"></i>'
-// // const FA_NEXT = '<i class="fa-solid fa-chevron-right"></i>'
-// const TIMER_INTERVAL = 2000
-// const SWIPE_TRESHOLD = 100
-// // Variables
-// let currentSlide = 0 
-// let timerId = null
-// let isPlaying = true
-// let swipStartX = null
-// let swipeEndX = null 
+const addMovieToList = ({ Poster: poster, Title: title, Year: year, Type: type }) => {
+const item = document.createElement('div')
+const image = document.createElement('img')
 
-// function gotoNth(n) {
-//  slides[currentSlide].classList.toggle('active')
-//  indicators[currentSlide].classList.toggle('active')
-
-//  indicators[currentSlide].style.background = null
-//  currentSlide = (n + SLIDE_COUNT) % SLIDE_COUNT
-// slides[currentSlide].classList.toggle('active')
-//  indicators[currentSlide].classList.toggle('active')
-// //  Get background color
-
-//  indicators[currentSlide].style.background = window.getComputedStyle(slides[currentSlide]).background
-// }
-
-
-// function gotoPrev() {
-// gotoNth(currentSlide - 1)
-// }
-
-// function gotoNext() {
-// gotoNth(currentSlide + 1)
-// }
-
-// // function tick() {
-// // timerId = setInterval(gotoNext, TIMER_INTERVAL)
-// // }
+const infoBlock = document.createElement('div')
+const titleElement = document.createElement('h3')
+const yearElement = document.createElement('p')
+const typeElement = document.createElement('p')
 
 
 
-// function pauseHandler() {
-//   if (!isPlaying) 
-//   pauseBtn.innerHTML = FA_PLAY
-// clearInterval(timerId)
-// isPlaying = !isPlaying
-// }
+item.classList.add('movie')
+image.classList.add('movie__poster')
 
-// function playHandler() {
-//   if (!isPlaying)
-// pauseBtn.innerHTML = FA_PAUSE
-// isPlaying = !isPlaying
-//  tick()
-// }
+infoBlock.classList.add('movie__info')
 
-// function togglePlayHandler() {
-//  isPlaying ? pauseHandler(): playHandler()
-// }
+titleElement.classList.add('movie__title')
+titleElement.textContent = title
 
-// function nextHandler() {
-// gotoNext()
-// pauseHandler()
-// }
+yearElement.classList.add('movie__year')
+yearElement.textContent = `Рік: ${year}`
 
-// function prevHandler() {
-//   gotoPrev()
-//   pauseHandler()
-// }
+typeElement.classList.add('movie__type')
+typeElement.textContent = `Тип: ${type}`
 
-// function indicatorClickHandler(e) {
-// const {target} = e
-// if (target && target.classList.contains('indicator')) {
-//   pauseHandler()
-//   gotoNth(+target.dataset.slideTo)
-// }
-// }
+image.src =  /^(https?:\/\/)/.test(poster) ? poster: 'carousel/img/no-image.png'
+image.alt = `${title} ${year}`
+image.title = `${title} ${year} ${type}`
+
+infoBlock.append(titleElement, yearElement, typeElement)
+item.append(image, infoBlock)
+// item.append(image)
+moviesListElement.prepend(item)
+
+}
 
 
-// function keydownHandler(e) {
-//   const code = e.code
-
-//   if (code === COSE_ARROW_LEFT) prevHandler()
-//   if (code === CODE_ARROW_RIGHT) nextHandler()
-//       if (code === CODE_SPACE) {
-//         e.preventDefault()
-//         togglePlayHandler()
-//       }
-// }
-
-// function swipeStartHandler(e) {
-// swipeStartX = e instanceof MouseEvent ? e.clientX : e.changedTouches[0].clientX
-// }
-
-// function swipeEndHandler(e) {
-//   swipeEndX = e instanceof MouseEvent ? e.clientX : e.changedTouches[0].clientX
+const clearMoviesMarkup = () => {
+  if (moviesListElement) moviesListElement.innerHTML = ''
+}
 
 
-// const diff = swipStartX - swipeEndX
+const inputSearchHandler = (e) => {
+debounceTime(() => {
+    const searchValue = e.target.value.trim()
 
-// if (diff > SWIPE_TRESHOLD) prevHandler()
-
-//   if (diff < -SWIPE_TRESHOLD) nextHandler()
-// }
-
-
-// function initEventListeners() {
-// pauseBtn.addEventListener('click', togglePlayHandler)
-// previousBtn.addEventListener('click', prevHandler)
-// nextBtn.addEventListener('click', nextHandler)
-// indicatorsContainer.addEventListener('click', indicatorClickHandler)
-// document.addEventListener('keydown', keydownHandler)
-// slidesContainer.addEventListener('touchstart', swipeStartHandler, {passive: true})
-// slidesContainer.addEventListener('mousdown', swipeStartHandler)
-// slidesContainer.addEventListener('touchend', swipeEndHandler)
-// slidesContainer.addEventListener('mouseup', swipeEndHandler)
-// }
-
-// function init() {
-// initEventListeners()
-// tick()
-// }
+if (!searchValue  || searchValue .length < 4 || searchValue === lastSearchValue) return
 
 
-init()
+  if (!isSearchTriggerEnabled) clearMoviesMarkup()
+    spinnerElement.classList.add('spinner--visible')
 
+
+  getData(`http://www.omdbapi.com/?apikey=962edf76&s=${searchValue }`).then((movies) => movies?.forEach((movie) => 
+  addMovieToList(movie)))
+
+  .catch((err) => console.log(err))
+
+    .finally (() => {
+      spinnerElement.classList.remove('spinner--visible')
+    })
+  lastSearchValue = searchValue
+},2000)
+}
+
+searchInput.addEventListener('input',inputSearchHandler )
+searchChecbox.addEventListener('change', (e) => (isSearchTriggerEnabled = e.target.checked))
 
