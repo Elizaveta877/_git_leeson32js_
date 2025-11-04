@@ -83,7 +83,7 @@ if (!searchValue  || searchValue .length < 4 || searchValue === lastSearchValue)
     spinnerElement.classList.add('spinner--visible')
 
 
-  getData(`http://www.omdbapi.com/?apikey=962edf76&s=${searchValue }`).then((movies) => movies?.forEach((movie) => 
+  getData(`https://www.omdbapi.com/?apikey=962edf76&s=${searchValue }`).then((movies) => movies?.forEach((movie) => 
   addMovieToList(movie)))
 
   .catch((err) => console.log(err))
